@@ -1,0 +1,24 @@
+{
+    "datas": [
+        {
+            "keyType": 1,
+            "keyCode": 273
+        },
+        {
+            "keyType": 2,
+            "keyCode": 274
+        },
+        {
+            "keyType": 3,
+            "keyCode": 276
+        },
+        {
+            "keyType": 4,
+            "keyCode": 275
+        },
+        {
+            "keyType": 5,
+            "keyCode": 102
+        }
+    ]
+}
