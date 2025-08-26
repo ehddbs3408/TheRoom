@@ -16,6 +16,8 @@ public class MessagePanel : MonoBehaviour
 
     private RectTransform rectTransform;
 
+    private bool isPanelOn = true;
+
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -30,7 +32,7 @@ public class MessagePanel : MonoBehaviour
     }
     public void SendMessageBox(string message)
     {
-        GameObject go = Instantiate(sendMessageBoxPrefab,contentParent);
+        GameObject go = Instantiate(sendMessageBoxPrefab, contentParent);
         go.GetComponent<MessageBox>().SetText(message);
         go.SetActive(true);
     }
@@ -41,19 +43,47 @@ public class MessagePanel : MonoBehaviour
         scrollRect.verticalNormalizedPosition = 0f; // 가장 아래로 이동
     }
 
+    public void ToggleMessagePanel()
+    {
+
+        if (rectTransform.anchoredPosition.x < 0)
+        {
+            OnMessagePanel();
+        }
+        else
+        {
+            OffMessagePanel();
+        }
+    }
+
     public void OnMessagePanel()
     {
+        if (isPanelOn) return;
         ScrollToBottom();
-        rectTransform.DOAnchorPosX(300, 0.6f).SetEase(Ease.OutCubic);
+        rectTransform.DOAnchorPosX(300, 0.6f).SetEase(Ease.OutCubic).onComplete = () =>
+        {
+            isPanelOn = true;
+        };
     }
 
     public void OffMessagePanel()
     {
-        rectTransform.DOAnchorPosX(-300, 0.6f).SetEase(Ease.OutCubic);
+        if (isPanelOn == false) return;
+        rectTransform.DOAnchorPosX(-300, 0.6f).SetEase(Ease.OutCubic).onComplete = () =>
+        {
+            isPanelOn = false;
+        };
     }
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            PostMessageBox("안녕 ? 혹시 누구 있나요?");
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SendMessageBox("네, 저는 여기 있어요!");
+        }
     }
 }
